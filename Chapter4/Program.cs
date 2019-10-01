@@ -11,10 +11,16 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            var directory = Directory.CreateDirectory(@"C:\Temp\ProgrammingInCSharp\Directory");
+            if (Directory.Exists(@"C:\Temp\ProgrammingInCSharp\Directory"))
+            {
+                Directory.Delete(@"C:\Temp\ProgrammingInCSharp\Directory");
+            }
 
             var directoryInfo = new DirectoryInfo(@"C:\Temp\ProgrammingInCSharp\DirectoryInfo");
-            directoryInfo.Create();
+            if (directoryInfo.Exists)
+            {
+                directoryInfo.Delete();
+            }
         }
     }
 }
