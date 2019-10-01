@@ -12,14 +12,41 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            DirectoryInfo directoryInfo = new DirectoryInfo("TestDirectory");
-            directoryInfo.Create();
-            DirectorySecurity directorySecurity = directoryInfo.GetAccessControl();
-            directorySecurity.AddAccessRule(
-                new FileSystemAccessRule("everyone",
-                FileSystemRights.ReadAndExecute,
-                AccessControlType.Allow));
-            directoryInfo.SetAccessControl(directorySecurity);
+            DirectoryInfo directoryInfo = new DirectoryInfo(@"C:\Program Files");
+            ListDirectories(directoryInfo, "*a*", 5, 0);
+        }
+
+        private static void ListDirectories(DirectoryInfo directoryInfo,
+            string searchPattern, int maxLevel, int currentLevel)
+        {
+            if (currentLevel >= maxLevel)
+            {
+                return;
+            }
+
+            string indent = new string('-', currentLevel);
+
+            try
+            {
+                DirectoryInfo[] subDirectories = directoryInfo.GetDirectories(searchPattern);
+
+                foreach (DirectoryInfo subDirectory in subDirectories)
+                {
+                    Console.WriteLine(indent + subDirectory.Name);
+                    ListDirectories(subDirectory, searchPattern, maxLevel, currentLevel + 1);
+                }
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // You don't have access to his folder.
+                Console.WriteLine(indent + "Can't access: " + directoryInfo.Name);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                // The folder is removed while iterating
+                Console.WriteLine(indent + "Can't find: " + directoryInfo.Name);
+                return;
+            }
         }
     }
 }
