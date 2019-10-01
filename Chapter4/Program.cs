@@ -12,8 +12,10 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            DirectoryInfo directoryInfo = new DirectoryInfo(@"C:\Program Files");
-            ListDirectories(directoryInfo, "*a*", 5, 0);
+            Directory.Move(@"C:\source", @"c:\destination");
+
+            DirectoryInfo directoryInfo = new DirectoryInfo(@"C:\Source");
+            directoryInfo.MoveTo(@"C:\destination");
         }
 
         private static void ListDirectories(DirectoryInfo directoryInfo,
