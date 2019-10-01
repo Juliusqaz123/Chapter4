@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,16 +12,14 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            if (Directory.Exists(@"C:\Temp\ProgrammingInCSharp\Directory"))
-            {
-                Directory.Delete(@"C:\Temp\ProgrammingInCSharp\Directory");
-            }
-
-            var directoryInfo = new DirectoryInfo(@"C:\Temp\ProgrammingInCSharp\DirectoryInfo");
-            if (directoryInfo.Exists)
-            {
-                directoryInfo.Delete();
-            }
+            DirectoryInfo directoryInfo = new DirectoryInfo("TestDirectory");
+            directoryInfo.Create();
+            DirectorySecurity directorySecurity = directoryInfo.GetAccessControl();
+            directorySecurity.AddAccessRule(
+                new FileSystemAccessRule("everyone",
+                FileSystemRights.ReadAndExecute,
+                AccessControlType.Allow));
+            directoryInfo.SetAccessControl(directorySecurity);
         }
     }
 }
