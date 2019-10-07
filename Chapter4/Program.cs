@@ -13,31 +13,21 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            string folder = @"c:\temp";
-            string uncompressedFilePath = Path.Combine(folder, "uncompressed.dat");
-            string compressedFilePath = Path.Combine(folder, "compressed.gz");
-            byte[] dataToCompress = Enumerable.Repeat((byte)'a', 1024 * 1024).ToArray();
+            string path = @"c:\temp\bufferedStream.txt";
 
-            using (FileStream uncompressedFileStream = File.Create(uncompressedFilePath))
+            using (FileStream fileStream = File.Create(path))
             {
-                uncompressedFileStream.Write(dataToCompress, 0, dataToCompress.Length);
-            }
-            using (FileStream compressedFileStream = File.Create(compressedFilePath))
-            {
-                using (GZipStream compressionStream = new GZipStream(
-                    compressedFileStream, CompressionMode.Compress))
+                using (BufferedStream bufferedStream = new BufferedStream(fileStream))
                 {
-                    compressionStream.Write(dataToCompress, 0, dataToCompress.Length);
+                    using (StreamWriter streamWriter = new StreamWriter(bufferedStream))
+                    {
+                        streamWriter.WriteLine("A line of text.");
+                    }
+
                 }
             }
 
-            FileInfo uncompressedFile = new FileInfo(uncompressedFilePath);
-            FileInfo compressedFile = new FileInfo(compressedFilePath);
-
-            Console.WriteLine(uncompressedFile.Length);
-            Console.WriteLine(compressedFile.Length);
-
-            Console.ReadLine();
+                Console.ReadLine();
         }
 
         private static void ListDirectories(DirectoryInfo directoryInfo,
