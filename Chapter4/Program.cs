@@ -12,18 +12,14 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            string path = @"c:\temp\test.txt";
-            if (File.Exists(path))
-            {
-                File.Delete(path);
-            }
+            string path = @"c:\temp\text.txt";
+            string destPath = @"c:\temp\destTest.txt";
+
+            File.CreateText(path).Close();
+            File.Move(path, destPath);
 
             FileInfo fileInfo = new FileInfo(path);
-
-            if (fileInfo.Exists)
-            {
-                fileInfo.Delete();
-            }
+            fileInfo.MoveTo(destPath);
             Console.ReadLine();
         }
 
