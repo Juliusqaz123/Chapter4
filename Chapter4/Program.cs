@@ -12,10 +12,19 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            Directory.Move(@"C:\source", @"c:\destination");
+            string path = @"c:\temp\test.txt";
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
 
-            DirectoryInfo directoryInfo = new DirectoryInfo(@"C:\Source");
-            directoryInfo.MoveTo(@"C:\destination");
+            FileInfo fileInfo = new FileInfo(path);
+
+            if (fileInfo.Exists)
+            {
+                fileInfo.Delete();
+            }
+            Console.ReadLine();
         }
 
         private static void ListDirectories(DirectoryInfo directoryInfo,
