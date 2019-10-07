@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
@@ -12,12 +13,29 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            string path = @"c:\temp\test.dat";
+            string folder = @"c:\temp";
+            string uncompressedFilePath = Path.Combine(folder, "uncompressed.dat");
+            string compressedFilePath = Path.Combine(folder, "compressed.gz");
+            byte[] dataToCompress = Enumerable.Repeat((byte)'a', 1024 * 1024).ToArray();
 
-            using (StreamReader streamWriter = File.OpenText(path))
+            using (FileStream uncompressedFileStream = File.Create(uncompressedFilePath))
             {
-                Console.WriteLine(streamWriter.ReadLine()); // Displays: MyValue
+                uncompressedFileStream.Write(dataToCompress, 0, dataToCompress.Length);
             }
+            using (FileStream compressedFileStream = File.Create(compressedFilePath))
+            {
+                using (GZipStream compressionStream = new GZipStream(
+                    compressedFileStream, CompressionMode.Compress))
+                {
+                    compressionStream.Write(dataToCompress, 0, dataToCompress.Length);
+                }
+            }
+
+            FileInfo uncompressedFile = new FileInfo(uncompressedFilePath);
+            FileInfo compressedFile = new FileInfo(compressedFilePath);
+
+            Console.WriteLine(uncompressedFile.Length);
+            Console.WriteLine(compressedFile.Length);
 
             Console.ReadLine();
         }
