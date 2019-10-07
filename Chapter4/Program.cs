@@ -12,14 +12,15 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            string path = @"c:\temp\text.txt";
+            string path = @"c:\temp\test.txt";
             string destPath = @"c:\temp\destTest.txt";
 
             File.CreateText(path).Close();
-            File.Move(path, destPath);
+            File.Copy(path, destPath);
 
             FileInfo fileInfo = new FileInfo(path);
-            fileInfo.MoveTo(destPath);
+            fileInfo.CopyTo(destPath);
+
             Console.ReadLine();
         }
 
