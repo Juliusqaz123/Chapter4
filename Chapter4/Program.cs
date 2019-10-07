@@ -15,7 +15,7 @@ namespace Chapter4
             string folder = @"C:\temp";
             string fileName = "test.dat";
 
-            string fullPath = folder + fileName; // Results in C:\temptest.dat
+            string fullPath = Path.Combine(folder, fileName);   // Results in C:\\temp\\test.dat
 
             Console.ReadLine();
         }
