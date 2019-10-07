@@ -12,14 +12,10 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            string path = @"c:\temp\test.txt";
-            string destPath = @"c:\temp\destTest.txt";
+            string folder = @"C:\temp";
+            string fileName = "test.dat";
 
-            File.CreateText(path).Close();
-            File.Copy(path, destPath);
-
-            FileInfo fileInfo = new FileInfo(path);
-            fileInfo.CopyTo(destPath);
+            string fullPath = folder + fileName; // Results in C:\temptest.dat
 
             Console.ReadLine();
         }
