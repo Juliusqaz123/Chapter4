@@ -14,10 +14,15 @@ namespace Chapter4
         {
             string path = @"c:\temp\test.dat";
 
-            using (StreamWriter streamWriter = File.CreateText(path))
+            using (FileStream fileStream = File.OpenRead(path))
             {
-                string myValue = "MyValue";
-                streamWriter.Write(myValue);
+                byte[] data = new byte[fileStream.Length];
+
+                for (int index = 0; index < fileStream.Length; index++)
+                {
+                    data[index] = (byte)fileStream.ReadByte();
+                }
+                Console.WriteLine(Encoding.UTF8.GetString(data));  
             }
 
             Console.ReadLine();
