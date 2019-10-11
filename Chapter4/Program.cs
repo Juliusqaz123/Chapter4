@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
@@ -16,13 +17,13 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            var sqlConnectionStringBuilder = new SqlConnectionStringBuilder();
+            string connectionString = ConfigurationManager.
+                ConnectionStrings["ProgrammingInCSharpConnection"].ConnectionString;
 
-            sqlConnectionStringBuilder.DataSource = @"(localdb)\v11.0";
-            sqlConnectionStringBuilder.InitialCatalog = "ProgrammingInCSharp";
-
-            string connectionString = sqlConnectionStringBuilder.ToString();
-
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+            }
             Console.ReadLine();
         }
 
