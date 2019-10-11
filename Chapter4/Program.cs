@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
@@ -84,6 +85,12 @@ namespace Chapter4
 
                 await stream.WriteAsync(data, 0, data.Length);
             }
+        }
+
+        public async Task ReadAsyncHttpRequest()
+        {
+            HttpClient client = new HttpClient();
+            string result = await client.GetStringAsync("http://www.microsoft.com");
         }
     }
 }
