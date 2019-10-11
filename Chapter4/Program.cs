@@ -73,5 +73,17 @@ namespace Chapter4
 
             return string.Empty;
         }
+
+        public async Task CreateAndWriteAsyncToFile()
+        {
+            using (FileStream stream = new FileStream("test.dat", FileMode.Create,
+                FileAccess.Write, FileShare.None, 4096, true))
+            {
+                byte[] data = new byte[100000];
+                new Random().NextBytes(data);
+
+                await stream.WriteAsync(data, 0, data.Length);
+            }
+        }
     }
 }
