@@ -16,12 +16,12 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            string connectionString = "abc"
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                // Execute operations against the database
-            }   // Connection is automatically closed
+            var sqlConnectionStringBuilder = new SqlConnectionStringBuilder();
+
+            sqlConnectionStringBuilder.DataSource = @"(localdb)\v11.0";
+            sqlConnectionStringBuilder.InitialCatalog = "ProgrammingInCSharp";
+
+            string connectionString = sqlConnectionStringBuilder.ToString();
 
             Console.ReadLine();
         }
