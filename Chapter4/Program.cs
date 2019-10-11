@@ -201,5 +201,27 @@ namespace Chapter4
                 Console.WriteLine("Updated {0} rows", numberOfUpdatedRows);
             }
         }
+
+        public async Task InsertRowWithParametrizedQuery()
+        {
+            string connectionString = ConfigurationManager.
+                ConnectionStrings["ProgrammingInCSharpConnection"].ConnectionString;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(
+                    "INSERT INTO People([FirstName], [LastName], [MiddleName]) VALUES(@" +
+                    "firstname, @lastname, @middleName)",
+                    connection);
+                await connection.OpenAsync();
+
+                command.Parameters.AddWithValue("@firstName", "John");
+                command.Parameters.AddWithValue("@lastName", "Doe");
+                command.Parameters.AddWithValue("@middleName", "Little");
+
+                int numberOfInsertedRows = await command.ExecuteNonQueryAsync();
+                Console.WriteLine("Inserted {0} rows", numberOfInsertedRows);
+            }
+        }
     }
 }
