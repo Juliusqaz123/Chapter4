@@ -62,5 +62,16 @@ namespace Chapter4
                 return;
             }
         }
+
+        private static string ReadAllText()
+        {
+            string path = @"C:\temp\test.txt";
+
+            if (File.Exists(path))
+            {
+                return File.ReadAllText(path);
+            }
+            return string.Empty;
+        }
     }
 }
