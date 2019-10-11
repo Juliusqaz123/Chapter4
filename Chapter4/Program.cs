@@ -67,10 +67,13 @@ namespace Chapter4
         {
             string path = @"C:\temp\test.txt";
 
-            if (File.Exists(path))
+            try
             {
                 return File.ReadAllText(path);
             }
+            catch (DirectoryNotFoundException) { }
+            catch (FileNotFoundException) { }
+
             return string.Empty;
         }
     }
