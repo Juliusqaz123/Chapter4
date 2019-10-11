@@ -92,5 +92,14 @@ namespace Chapter4
             HttpClient client = new HttpClient();
             string result = await client.GetStringAsync("http://www.microsoft.com");
         }
+
+        public async Task ExecuteMultipleRequests()
+        {
+            HttpClient client = new HttpClient();
+
+            string microsoft = await client.GetStringAsync("http://www.microsoft.com");
+            string msdn = await client.GetStringAsync("http://msdn.microsoft.com");
+            string blogs = await client.GetStringAsync("http://blogs.msdn.com/");
+        }
     }
 }
