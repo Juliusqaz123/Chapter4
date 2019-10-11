@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -15,15 +16,12 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            WebRequest request = WebRequest.Create("http://www.microsoft.com");
-            WebResponse response = request.GetResponse();
-
-            StreamReader responseStream = new StreamReader(response.GetResponseStream());
-            string responseText = responseStream.ReadToEnd();
-
-            Console.WriteLine(responseText);    // Displays the HTML of the website
-
-            response.Close();
+            string connectionString = "abc"
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                // Execute operations against the database
+            }   // Connection is automatically closed
 
             Console.ReadLine();
         }
