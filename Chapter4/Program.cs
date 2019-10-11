@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,21 +14,17 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            string path = @"c:\temp\bufferedStream.txt";
+            WebRequest request = WebRequest.Create("http://www.microsoft.com");
+            WebResponse response = request.GetResponse();
 
-            using (FileStream fileStream = File.Create(path))
-            {
-                using (BufferedStream bufferedStream = new BufferedStream(fileStream))
-                {
-                    using (StreamWriter streamWriter = new StreamWriter(bufferedStream))
-                    {
-                        streamWriter.WriteLine("A line of text.");
-                    }
+            StreamReader responseStream = new StreamReader(response.GetResponseStream());
+            string responseText = responseStream.ReadToEnd();
 
-                }
-            }
+            Console.WriteLine(responseText);    // Displays the HTML of the website
 
-                Console.ReadLine();
+            response.Close();
+
+            Console.ReadLine();
         }
 
         private static void ListDirectories(DirectoryInfo directoryInfo,
