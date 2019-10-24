@@ -36,15 +36,18 @@ namespace Chapter4
                                 </person>
                             </people>";
 
-            XElement root = new XElement("Root",
-                new List<XElement>
+            XElement root = XElement.Parse(xml);
+
+            foreach (XElement p in root.Descendants("person"))
+            {
+                string name = (string)p.Attribute("firstname") + (string)p.Attribute("lastname");
+                p.Add(new XAttribute("ismale", name.Contains("John")));
+                XElement contactDetails = p.Element("contactdetails");
+                if (!contactDetails.Descendants("phonenumber").Any())
                 {
-                    new XElement("Child1"),
-                    new XElement("Child2"),
-                    new XElement("Child3")
-                },
-                new XAttribute("MyAttribute", 42));
-            root.Save("test.xml");
+                    contactDetails.Add(new XElement("phonenumber", 001122334455));
+                }
+            }
             Console.ReadLine();
         }
 
