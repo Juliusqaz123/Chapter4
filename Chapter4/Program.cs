@@ -20,9 +20,11 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            Person p = new Person();
-            p.FirstName = "John";
-            p.LastName = "Doe";
+            Person p = new Person
+            {
+                FirstName = "John",
+                LastName = "Doe"
+            };
             Console.ReadLine();
         }
 
