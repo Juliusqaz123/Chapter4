@@ -38,12 +38,11 @@ namespace Chapter4
 
             XDocument doc = XDocument.Parse(xml);
             IEnumerable<string> personNames = from p in doc.Descendants("person")
-                                              select (string)p.Attribute("firstname")
-                                                + " " + (string)p.Attribute("lastname");
-            foreach (string s in personNames)
-            {
-                Console.WriteLine(s);
-            }
+                                              where p.Descendants("phonenumber").Any()
+                                              let name = (string)p.Attribute("firstname")
+                                                         + " " + (string)p.Attribute("lastname")
+                                              orderby name
+                                              select name;
             Console.ReadLine();
         }
 
