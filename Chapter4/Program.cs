@@ -20,10 +20,18 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            Person p = new Person
+            var people = new List<Person>
             {
-                FirstName = "John",
-                LastName = "Doe"
+                new Person
+                {
+                    FirstName ="John",
+                    LastName = "Doe"
+                },
+                new Person
+                {
+                    FirstName = "Jane",
+                    LastName = "Doe"
+                }
             };
             Console.ReadLine();
         }
