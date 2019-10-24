@@ -11,6 +11,7 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
+using System.Xml;
 
 namespace Chapter4
 {
@@ -18,10 +19,45 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            MyService client = new MyService();
-            string result = client.DoWork("John", "Doe");
-            Console.WriteLine(result);
-            Console.ReadLine();
+            string xml =
+                @"<?xml version=""1.0"" encoding=""utf-8"" ?>
+                    <people>
+                      <person firstName=""John"" lastName=""Doe"">
+                        <contactdetails>
+                          <emailaddress>john@unknown.com</emailaddress>
+                        </contactdetails>
+                      </person>
+                      <person firstName=""Jane"" lastName=""Doe"">
+                        <contactdetails>
+                          <emailaddress>jane@unknown.com</emailaddress>
+                          <phonenumber>001122334455</phonenumber>
+                        </contactdetails>
+                      </person>
+                    </people>";
+
+            using (StringReader stringReader = new StringReader(xml))
+            {
+                using (XmlReader xmlReader = XmlReader.Create(stringReader,
+                    new XmlReaderSettings() { IgnoreWhitespace = true }))
+                {
+                    xmlReader.MoveToContent();
+                    xmlReader.ReadStartElement("people");
+
+                    string firstName = xmlReader.GetAttribute("firstName");
+                    string lastName = xmlReader.GetAttribute("lastName");
+
+                    Console.WriteLine("Person: {0} {1}", firstName, lastName);
+                    xmlReader.ReadStartElement("person");
+
+                    Console.WriteLine("contactdetails");
+
+                    xmlReader.ReadStartElement("contactdetails");
+                    string emailAddress = xmlReader.ReadString();
+
+                    Console.WriteLine("Email address:{0}", emailAddress);
+                    Console.ReadLine();
+                }
+            }
         }
 
         private static void ListDirectories(DirectoryInfo directoryInfo,
