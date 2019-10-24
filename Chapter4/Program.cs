@@ -19,27 +19,49 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            StringWriter stream = new StringWriter();
+            string xml = @"<?xml version =""1.0"" encoding =""utf - 8""?>
+                     <people>
+                       <person firstname =""john"" lastname =""doe"">
+                            <contactdetails>
+                              <emailaddress>john@unknown.com</emailaddress>
+                               </contactdetails>
+                             </person>
+                             <person firstname =""jane"" lastname =""doe"">
+                                  <contactdetails>
+                                    <emailaddress> jane@unknown.com </emailaddress>
+                                       <phonenumber> 001122334455 </phonenumber>
+                                     </contactdetails>
+                                   </person>
+                                 </people>";
 
-            using (XmlWriter writer = XmlWriter.Create(
-                stream,
-                new XmlWriterSettings() { Indent = true }
-                ))
+            XmlDocument doc = new XmlDocument();
+
+            doc.LoadXml(xml);
+            XmlNodeList nodes = doc.GetElementsByTagName("person");
+
+            // Output the names of the people in the document
+            foreach (XmlNode node in nodes)
             {
-                writer.WriteStartDocument();
-                writer.WriteStartElement("People");
-                writer.WriteStartElement("Person");
-                writer.WriteAttributeString("firstname", "John");
-                writer.WriteAttributeString("lastname", "Doe");
-                writer.WriteStartElement("ContactDetails");
-                writer.WriteElementString("EmailAddress", "john@unknown.com");
-                writer.WriteEndElement();
-                writer.WriteEndElement();
-                writer.Flush();
+                string firstName = node.Attributes["firstname"].Value;
+                string lastName = node.Attributes["lastname"].Value;
+                Console.WriteLine("Name: {0} {1}", firstName, lastName);
             }
 
-            Console.WriteLine(stream.ToString());
+            // Start creating a new node
+            XmlNode newNode = doc.CreateNode(XmlNodeType.Element, "Person", "");
 
+            XmlAttribute firstNameAttribute = doc.CreateAttribute("firstname");
+            firstNameAttribute.Value = "Foo";
+
+            XmlAttribute lastNameAttribute = doc.CreateAttribute("lastname");
+            lastNameAttribute.Value = "Bar";
+
+            newNode.Attributes.Append(firstNameAttribute);
+            newNode.Attributes.Append(lastNameAttribute);
+
+            doc.DocumentElement.AppendChild(newNode);
+            Console.WriteLine("Modified xml...");
+            doc.Save(Console.Out);
             Console.ReadLine();
         }
 
@@ -184,7 +206,7 @@ namespace Chapter4
             {
                 string formatStringWithMiddleName = "Person ({0}) is named {1} {2} {3}";
                 string formatStringWithoutMiddleName = "Person ({0}) is named {1} {3}";
-                if((dataReader["middlename"] == null))
+                if ((dataReader["middlename"] == null))
                 {
                     Console.WriteLine(formatStringWithoutMiddleName,
                         dataReader["id"],
