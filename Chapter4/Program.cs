@@ -21,15 +21,9 @@ namespace Chapter4
         static void Main(string[] args)
         {
             int[] data = { 1, 2, 5, 8, 11 };
-
             var result = from d in data
-                         where d % 2 == 0
                          select d;
-
-            foreach (int i in result)
-            {
-                Console.WriteLine(i);
-            }
+            Console.WriteLine(string.Join(", ", result));
             Console.ReadLine();
         }
 
