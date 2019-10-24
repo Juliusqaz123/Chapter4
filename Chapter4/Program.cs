@@ -36,13 +36,15 @@ namespace Chapter4
                                 </person>
                             </people>";
 
-            XDocument doc = XDocument.Parse(xml);
-            IEnumerable<string> personNames = from p in doc.Descendants("person")
-                                              where p.Descendants("phonenumber").Any()
-                                              let name = (string)p.Attribute("firstname")
-                                                         + " " + (string)p.Attribute("lastname")
-                                              orderby name
-                                              select name;
+            XElement root = new XElement("Root",
+                new List<XElement>
+                {
+                    new XElement("Child1"),
+                    new XElement("Child2"),
+                    new XElement("Child3")
+                },
+                new XAttribute("MyAttribute", 42));
+            root.Save("test.xml");
             Console.ReadLine();
         }
 
