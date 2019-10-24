@@ -228,4 +228,21 @@ namespace Chapter4
             }
         }
     }
+
+    public class Product
+    {
+        public string Description { get; set; }
+        public decimal Price { get; set; }
+    }
+
+    public class OrderLine
+    {
+        public int Amount { get; set; }
+        public Product Product { get; set; }
+    }
+
+    public class Order
+    {
+        public List<OrderLine> OrderLines { get; set; }
+    }
 }
