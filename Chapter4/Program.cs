@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using System.Xml;
 using System.Xml.XPath;
+using System.Xml.Linq;
 
 namespace Chapter4
 {
@@ -20,7 +21,7 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            String xml = @"?xml version=""1.0"" encoding=""utf-8"" ?>
+            String xml = @"<?xml version=""1.0"" encoding=""utf-8"" ?>
                             <people>
                                 <person firstname=""john"" lastname=""doe"">
                                     <contactdetails>
@@ -34,6 +35,15 @@ namespace Chapter4
                                     </contactdetails>
                                 </person>
                             </people>";
+
+            XDocument doc = XDocument.Parse(xml);
+            IEnumerable<string> personNames = from p in doc.Descendants("person")
+                                              select (string)p.Attribute("firstname")
+                                                + " " + (string)p.Attribute("lastname");
+            foreach (string s in personNames)
+            {
+                Console.WriteLine(s);
+            }
             Console.ReadLine();
         }
 
