@@ -14,6 +14,7 @@ using System.Transactions;
 using System.Xml;
 using System.Xml.XPath;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace Chapter4
 {
@@ -21,35 +22,28 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            String xml = @"<?xml version=""1.0"" encoding=""utf-8"" ?>
-                            <people>
-                                <person firstname=""john"" lastname=""doe"">
-                                    <contactdetails>
-                                        <emailaddress>john@unknown.com</emailaddress>
-                                    </contactdetails>
-                                </person>
-                                <person firstname=""jane"" lastname=""doe"">
-                                    <contactdetails>
-                                        <emailaddress>jane@unknown.com</emailaddress>
-                                        <phonenumber>001122334455</phonenumber>
-                                    </contactdetails>
-                                </person>
-                            </people>";
+            XmlSerializer serializer = new XmlSerializer(typeof(Person));
+            string xml;
+            using (StringWriter stringWriter = new StringWriter())
+            {
+                Person p = new Person
+                {
+                    FirstName = "John",
+                    LastName = "Doe",
+                    Age = 42
+                };
+                serializer.Serialize(stringWriter, p);
+                xml = stringWriter.ToString();
+            }
 
-            XElement root = XElement.Parse(xml);
+            Console.WriteLine(xml);
 
-            XElement newTree = new XElement("people",
-                from p in root.Descendants("person")
-                let name = (string)p.Attribute("firstname") + (string)p.Attribute("lastname")
-                let contactDetails = p.Element("contactdetails")
-                select new XElement("person",
-                    new XAttribute("ismale", name.Contains("john")),
-                    p.Attributes(),
-                    new XElement("contactdetails",
-                        contactDetails.Element("emailaddress"),
-                        contactDetails.Element("phonenumber")
-                            ?? new XElement("phonenumber", 112233455)
-                     )));
+            using (StringReader stringReader = new StringReader(xml))
+            {
+                Person p = (Person)serializer.Deserialize(stringReader);
+                Console.WriteLine("{0} {1} is {2} years old", p.FirstName, p.LastName, p.Age);
+            }
+
             Console.ReadLine();
         }
 
@@ -282,5 +276,13 @@ namespace Chapter4
                 }
             }
         }
+    }
+
+    [Serializable]
+    public class Person
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public int Age { get; set; }
     }
 }

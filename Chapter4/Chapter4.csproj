@@ -59,7 +59,6 @@
     <Compile Include="IntExtensions.cs" />
     <Compile Include="MyService.cs" />
     <Compile Include="PeopleContext.cs" />
-    <Compile Include="Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
