@@ -22,6 +22,7 @@ namespace Chapter4
         {
             int[] data = { 1, 2, 5, 8, 11 };
             var result = from d in data
+                         where d > 5
                          select d;
             Console.WriteLine(string.Join(", ", result));
             Console.ReadLine();
