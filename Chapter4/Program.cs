@@ -20,12 +20,8 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            Func<int, int> myDelegate =
-                delegate (int x)
-                {
-                    return x * 2;
-                };
-            Console.WriteLine(myDelegate(21));
+            int x = 2;
+            Console.WriteLine(x.Multiply(3));
             Console.ReadLine();
         }
 
