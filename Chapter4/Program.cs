@@ -38,16 +38,18 @@ namespace Chapter4
 
             XElement root = XElement.Parse(xml);
 
-            foreach (XElement p in root.Descendants("person"))
-            {
-                string name = (string)p.Attribute("firstname") + (string)p.Attribute("lastname");
-                p.Add(new XAttribute("ismale", name.Contains("John")));
-                XElement contactDetails = p.Element("contactdetails");
-                if (!contactDetails.Descendants("phonenumber").Any())
-                {
-                    contactDetails.Add(new XElement("phonenumber", 001122334455));
-                }
-            }
+            XElement newTree = new XElement("people",
+                from p in root.Descendants("person")
+                let name = (string)p.Attribute("firstname") + (string)p.Attribute("lastname")
+                let contactDetails = p.Element("contactdetails")
+                select new XElement("person",
+                    new XAttribute("ismale", name.Contains("john")),
+                    p.Attributes(),
+                    new XElement("contactdetails",
+                        contactDetails.Element("emailaddress"),
+                        contactDetails.Element("phonenumber")
+                            ?? new XElement("phonenumber", 112233455)
+                     )));
             Console.ReadLine();
         }
 
