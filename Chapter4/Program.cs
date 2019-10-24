@@ -20,13 +20,16 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            var person = new
-            {
-                FirstName = "John",
-                LastName = "Doe"
-            };
+            int[] data = { 1, 2, 5, 8, 11 };
 
-            Console.WriteLine(person.GetType().Name);
+            var result = from d in data
+                         where d % 2 == 0
+                         select d;
+
+            foreach (int i in result)
+            {
+                Console.WriteLine(i);
+            }
             Console.ReadLine();
         }
 
