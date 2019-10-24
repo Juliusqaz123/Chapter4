@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Xml;
+using System.Xml.XPath;
 
 namespace Chapter4
 {
@@ -35,33 +36,20 @@ namespace Chapter4
                                  </people>";
 
             XmlDocument doc = new XmlDocument();
-
             doc.LoadXml(xml);
-            XmlNodeList nodes = doc.GetElementsByTagName("person");
 
-            // Output the names of the people in the document
-            foreach (XmlNode node in nodes)
+            XPathNavigator nav = doc.CreateNavigator();
+            string query = "//people/person[@firstname='Jane']";
+            XPathNodeIterator iterator = nav.Select(query);
+
+            Console.WriteLine(iterator.Count);
+
+            while (iterator.MoveNext())
             {
-                string firstName = node.Attributes["firstname"].Value;
-                string lastName = node.Attributes["lastname"].Value;
+                string firstName = iterator.Current.GetAttribute("firstname","");
+                string lastName = iterator.Current.GetAttribute("lastname", "");
                 Console.WriteLine("Name: {0} {1}", firstName, lastName);
             }
-
-            // Start creating a new node
-            XmlNode newNode = doc.CreateNode(XmlNodeType.Element, "Person", "");
-
-            XmlAttribute firstNameAttribute = doc.CreateAttribute("firstname");
-            firstNameAttribute.Value = "Foo";
-
-            XmlAttribute lastNameAttribute = doc.CreateAttribute("lastname");
-            lastNameAttribute.Value = "Bar";
-
-            newNode.Attributes.Append(firstNameAttribute);
-            newNode.Attributes.Append(lastNameAttribute);
-
-            doc.DocumentElement.AppendChild(newNode);
-            Console.WriteLine("Modified xml...");
-            doc.Save(Console.Out);
             Console.ReadLine();
         }
 
