@@ -247,19 +247,43 @@ namespace Chapter4
 
     public class Product
     {
-        public string Description { get; set; }
+        [XmlAttribute]
+        public int ID { get; set; }
         public decimal Price { get; set; }
+        public string Description { get; set; }
     }
 
+    [Serializable]
     public class OrderLine
     {
+        [XmlAttribute]
+        public int ID { get; set; }
+
+        [XmlAttribute]
         public int Amount { get; set; }
+
+        [XmlElement("OrderedProduct")]
         public Product Product { get; set; }
     }
 
+    [Serializable]
     public class Order
     {
-        public List<OrderLine> OrderLines { get; set; }
+        [XmlAttribute]
+        public int ID { get; set; }
+
+        [XmlIgnore]
+        public bool IsDirty { get; set; }
+
+        [XmlArray("Lines")]
+        [XmlArrayItem("OrderLine")]
+        public List<OrderLine> OrderLines { get; set;  }
+    }
+
+    [Serializable]
+    public class VIPOrder : Order
+    {
+        public string Description { get; set; }
     }
 
     public static class LinqExtensions
