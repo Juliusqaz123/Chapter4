@@ -20,19 +20,12 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            var people = new List<Person>
-            {
-                new Person
+            Func<int, int> myDelegate =
+                delegate (int x)
                 {
-                    FirstName ="John",
-                    LastName = "Doe"
-                },
-                new Person
-                {
-                    FirstName = "Jane",
-                    LastName = "Doe"
-                }
-            };
+                    return x * 2;
+                };
+            Console.WriteLine(myDelegate(21));
             Console.ReadLine();
         }
 
