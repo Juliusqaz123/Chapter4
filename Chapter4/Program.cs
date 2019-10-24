@@ -18,17 +18,10 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            using (PeopleContext ctx = new PeopleContext())
-            {
-                ctx.People.Add(new Person() { Id = 1, Name = "John Doe" });
-                ctx.SaveChanges();
-            }
-
-            using (PeopleContext ctx = new PeopleContext())
-            {
-                Person person = ctx.People.SingleOrDefault(p => p.Id == 1);
-                Console.WriteLine(person.Name);
-            }
+            MyService client = new MyService();
+            string result = client.DoWork("John", "Doe");
+            Console.WriteLine(result);
+            Console.ReadLine();
         }
 
         private static void ListDirectories(DirectoryInfo directoryInfo,
