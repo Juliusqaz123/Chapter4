@@ -20,8 +20,13 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            int x = 2;
-            Console.WriteLine(x.Multiply(3));
+            var person = new
+            {
+                FirstName = "John",
+                LastName = "Doe"
+            };
+
+            Console.WriteLine(person.GetType().Name);
             Console.ReadLine();
         }
 
