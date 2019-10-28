@@ -15,6 +15,8 @@ using System.Xml;
 using System.Xml.XPath;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 
 namespace Chapter4
 {
@@ -22,19 +24,21 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(Order),
-                new Type[] { typeof(VIPOrder) });
-            string xml;
-            using (StringWriter stringWriter = new StringWriter())
+            Person p = new Person
             {
-                Order order = CreateOrder();
-                serializer.Serialize(stringWriter, order);
-                xml = stringWriter.ToString();
+                Id = 1,
+                Name = "John Doe"
+            };
+
+            IFormatter formatter = new BinaryFormatter();
+            using (Stream stream = new FileStream("data.bin", FileMode.Create))
+            {
+                formatter.Serialize(stream, p);
             }
 
-            using (StringReader stringReader = new StringReader(xml))
+            using (Stream stream = new FileStream("data.bin", FileMode.Open))
             {
-                Order o = (Order)serializer.Deserialize(stringReader);
+                Person dp = (Person)formatter.Deserialize(stream);
             }
             Console.ReadLine();
         }
@@ -317,8 +321,8 @@ namespace Chapter4
     [Serializable]
     public class Person
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public int Age { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        private bool isDirty = false;
     }
 }
