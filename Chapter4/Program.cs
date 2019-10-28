@@ -26,14 +26,14 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            Queue<string> myQueue = new Queue<string>();
-            myQueue.Enqueue("Hello");
-            myQueue.Enqueue("World");
-            myQueue.Enqueue("From");
-            myQueue.Enqueue("A");
-            myQueue.Enqueue("Queue");
+            Stack<string> myStack = new Stack<string>();
+            myStack.Push("Hello");
+            myStack.Push("World");
+            myStack.Push("From");
+            myStack.Push("A");
+            myStack.Push("Queue");
 
-            foreach (string s in myQueue)
+            foreach (string s in myStack)
                 Console.Write(s + " ");
             Console.ReadLine();
         }
