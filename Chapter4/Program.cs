@@ -326,5 +326,29 @@ namespace Chapter4
 
         [NonSerialized]
         private bool isDirty = false;
+
+        [OnSerializing()]
+        internal void OnSerializingMethod(StreamingContext context)
+        {
+            Console.WriteLine("OnSerializing");
+        }
+
+        [OnSerialized()]
+        internal void OnSerializedMethod(StreamingContext context)
+        {
+            Console.WriteLine("OnSerialized");
+        }
+
+        [OnDeserializing()]
+        internal void OnDeserializingMethod(StreamingContext context)
+        {
+            Console.WriteLine("OnDeserializing");
+        }
+
+        [OnDeserialized()]
+        internal void OnDeserializedMethod(StreamingContext context)
+        {
+            Console.WriteLine("OnDeserialized");
+        }
     }
 }
