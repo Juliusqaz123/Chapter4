@@ -22,26 +22,41 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            StringWriter stream = new StringWriter();
-
-            using (XmlWriter writer = XmlWriter.Create(
-                stream,
-                new XmlWriterSettings() { Indent = true }))
+            XmlSerializer serializer = new XmlSerializer(typeof(Order),
+                new Type[] { typeof(VIPOrder) });
+            string xml;
+            using (StringWriter stringWriter = new StringWriter())
             {
-                writer.WriteStartDocument();
-                writer.WriteStartElement("People");
-                writer.WriteStartElement("Person");
-                writer.WriteAttributeString("firstName", "John");
-                writer.WriteAttributeString("lastName", "Doe");
-                writer.WriteStartElement("ContactDetails");
-                writer.WriteElementString("EmailAddress", "john@unknown.com");
-                writer.WriteEndElement();
-                writer.WriteEndElement();
-                writer.Flush();
+                Order order = CreateOrder();
+                serializer.Serialize(stringWriter, order);
+                xml = stringWriter.ToString();
             }
 
-            Console.WriteLine(stream.ToString());
-                Console.ReadLine();
+            using (StringReader stringReader = new StringReader(xml))
+            {
+                Order o = (Order)serializer.Deserialize(stringReader);
+            }
+            Console.ReadLine();
+        }
+
+        private static Order CreateOrder()
+        {
+            Product p1 = new Product { ID = 1, Description = "p2", Price = 9 };
+            Product p2 = new Product { ID = 2, Description = "p3", Price = 6 };
+
+            Order order = new VIPOrder
+            {
+                ID = 4,
+                Description = "Order for John Doe. Use the nice giftwrap",
+                OrderLines = new List<OrderLine>
+                {
+                    new OrderLine { ID = 5, Amount = 1, Product = p1},
+                    new OrderLine { ID = 6,Amount = 10, Product = p2},
+                }
+            };
+
+            return order;
+
         }
 
         private static void ListDirectories(DirectoryInfo directoryInfo,
