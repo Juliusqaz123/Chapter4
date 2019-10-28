@@ -25,15 +25,12 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            string[,] array2D = new string[3, 2] { { "one", "two"}, { "three", "four"},
-                                    { "five", "six" }};
-
-            Console.WriteLine(array2D[0, 0]);
-            Console.WriteLine(array2D[0, 1]);
-            Console.WriteLine(array2D[1, 0]);
-            Console.WriteLine(array2D[1, 1]);
-            Console.WriteLine(array2D[2, 0]);
-            Console.WriteLine(array2D[2, 1]);
+            int[][] jaggedArray =
+            {
+                new int[] {1, 3, 5, 7, 9},
+                new int[] {0, 2, 4, 6},
+                new int[] {42, 21}
+            };
             Console.ReadLine();
         }
 
