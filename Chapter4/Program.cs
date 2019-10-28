@@ -18,6 +18,7 @@ using System.Xml.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
+using System.Collections;
 
 namespace Chapter4
 {
@@ -32,6 +33,25 @@ namespace Chapter4
                 new int[] {42, 21}
             };
             Console.ReadLine();
+        }
+
+        public interface IList<T> : ICollection<T>, IEnumerable<T>, IEnumerable
+        {
+            T this[int index] { get; set; }
+            int IndexOf(T item);
+            void Insert(int index, T item);
+            void RemoveAt(int index);
+        }
+
+        public interface ICollection<T> : IEnumerable<T>, IEnumerable
+        {
+            int Count { get; }
+            bool IsReadOnly { get; }
+            void Add(T item);
+            void Clear();
+            bool Contains(T item);
+            void CopyTo(T[] array, int arrayIndex);
+            bool Remove(T item);
         }
 
         [Serializable]
