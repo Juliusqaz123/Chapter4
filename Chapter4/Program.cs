@@ -323,6 +323,8 @@ namespace Chapter4
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
+        [NonSerialized]
         private bool isDirty = false;
     }
 }
