@@ -25,18 +25,15 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            int[] arrayOfInt = new int[10];
+            string[,] array2D = new string[3, 2] { { "one", "two"}, { "three", "four"},
+                                    { "five", "six" }};
 
-            for (int x = 0; x < arrayOfInt.Length; x++)
-            {
-                arrayOfInt[x] = x;
-            }
-
-            foreach (int i in arrayOfInt)
-            {
-                Console.Write(i);
-            }
-
+            Console.WriteLine(array2D[0, 0]);
+            Console.WriteLine(array2D[0, 1]);
+            Console.WriteLine(array2D[1, 0]);
+            Console.WriteLine(array2D[1, 1]);
+            Console.WriteLine(array2D[2, 0]);
+            Console.WriteLine(array2D[2, 1]);
             Console.ReadLine();
         }
 
