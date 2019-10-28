@@ -26,12 +26,23 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            int[][] jaggedArray =
-            {
-                new int[] {1, 3, 5, 7, 9},
-                new int[] {0, 2, 4, 6},
-                new int[] {42, 21}
-            };
+            List<string> listOfStrings =
+                new List<string> { "A", "B", "C", "D", "E" };
+
+            for (int x = 0; x < listOfStrings.Count; x++)
+                Console.Write(listOfStrings[x]);
+
+            listOfStrings.Remove("A");
+
+            Console.WriteLine(listOfStrings[0]);
+
+            listOfStrings.Add("F");
+
+            Console.WriteLine(listOfStrings.Count);
+
+            bool hasC = listOfStrings.Contains("C");
+
+            Console.WriteLine(hasC);
             Console.ReadLine();
         }
 
