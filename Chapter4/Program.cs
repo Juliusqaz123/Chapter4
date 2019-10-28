@@ -25,22 +25,18 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            Person p = new Person
-            {
-                Id = 1,
-                Name = "John Doe"
-            };
+            int[] arrayOfInt = new int[10];
 
-            IFormatter formatter = new BinaryFormatter();
-            using (Stream stream = new FileStream("data.bin", FileMode.Create))
+            for (int x = 0; x < arrayOfInt.Length; x++)
             {
-                formatter.Serialize(stream, p);
+                arrayOfInt[x] = x;
             }
 
-            using (Stream stream = new FileStream("data.bin", FileMode.Open))
+            foreach (int i in arrayOfInt)
             {
-                Person dp = (Person)formatter.Deserialize(stream);
+                Console.Write(i);
             }
+
             Console.ReadLine();
         }
 
