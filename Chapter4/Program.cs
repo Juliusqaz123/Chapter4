@@ -49,6 +49,36 @@ namespace Chapter4
             Console.ReadLine();
         }
 
+        public void UseHashSet<T>()
+        {
+            HashSet<int> oddSet = new HashSet<int>();
+            HashSet<int> evenSet = new HashSet<int>();
+
+            for (int x = 1; x <= 10; x++)
+            {
+                if (x % 2 == 0)
+                    evenSet.Add(x);
+                else
+                    oddSet.Add(x);
+            }
+
+            DisplaySet(oddSet);
+            DisplaySet(evenSet);
+            oddSet.UnionWith(evenSet);
+            DisplaySet(oddSet);
+
+        }
+
+        private void DisplaySet(HashSet<int> set)
+        {
+            Console.Write("{");
+            foreach (int i in set)
+            {
+                Console.Write(" {0}", i);
+            }
+            Console.Write(" }");
+        }
+
         public interface ISet<T> : ICollection<T>, IEnumerable<T>, IEnumerable
         {
             bool Add(T item);
