@@ -22,29 +22,26 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(Person));
-            string xml;
-            using (StringWriter stringWriter = new StringWriter())
+            StringWriter stream = new StringWriter();
+
+            using (XmlWriter writer = XmlWriter.Create(
+                stream,
+                new XmlWriterSettings() { Indent = true }))
             {
-                Person p = new Person
-                {
-                    FirstName = "John",
-                    LastName = "Doe",
-                    Age = 42
-                };
-                serializer.Serialize(stringWriter, p);
-                xml = stringWriter.ToString();
+                writer.WriteStartDocument();
+                writer.WriteStartElement("People");
+                writer.WriteStartElement("Person");
+                writer.WriteAttributeString("firstName", "John");
+                writer.WriteAttributeString("lastName", "Doe");
+                writer.WriteStartElement("ContactDetails");
+                writer.WriteElementString("EmailAddress", "john@unknown.com");
+                writer.WriteEndElement();
+                writer.WriteEndElement();
+                writer.Flush();
             }
 
-            Console.WriteLine(xml);
-
-            using (StringReader stringReader = new StringReader(xml))
-            {
-                Person p = (Person)serializer.Deserialize(stringReader);
-                Console.WriteLine("{0} {1} is {2} years old", p.FirstName, p.LastName, p.Age);
-            }
-
-            Console.ReadLine();
+            Console.WriteLine(stream.ToString());
+                Console.ReadLine();
         }
 
         private static void ListDirectories(DirectoryInfo directoryInfo,
