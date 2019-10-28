@@ -26,23 +26,26 @@ namespace Chapter4
     {
         static void Main(string[] args)
         {
-            List<string> listOfStrings =
-                new List<string> { "A", "B", "C", "D", "E" };
+            Person p1 = new Person { Id = 1, Name = "Name1" };
+            Person p2 = new Person { Id = 2, Name = "Name2" };
+            Person p3 = new Person { Id = 3, Name = "Name3" };
 
-            for (int x = 0; x < listOfStrings.Count; x++)
-                Console.Write(listOfStrings[x]);
+            var dict = new Dictionary<int, Person>();
+            dict.Add(p1.Id, p1);
+            dict.Add(p2.Id, p2);
+            dict.Add(p3.Id, p3);
 
-            listOfStrings.Remove("A");
+            foreach( KeyValuePair<int, Person> v in dict)
+            {
+                Console.WriteLine("{0}: {1}", v.Key, v.Value.Name);
+            }
 
-            Console.WriteLine(listOfStrings[0]);
-
-            listOfStrings.Add("F");
-
-            Console.WriteLine(listOfStrings.Count);
-
-            bool hasC = listOfStrings.Contains("C");
-
-            Console.WriteLine(hasC);
+            dict[0] = new Person { Id = 4, Name = "Name4" };
+            Person result;
+            if (!dict.TryGetValue(5, out result))
+            {
+                Console.WriteLine("No person with a key of 5 can be found");
+            }
             Console.ReadLine();
         }
 
